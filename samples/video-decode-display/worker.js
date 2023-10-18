@@ -36,7 +36,16 @@ function renderFrame(frame) {
 }
 
 function renderAnimationFrame() {
+  // Update statistics.
+
   renderer.draw(pendingFrame);
+  if (startTime == null) {
+    startTime = performance.now();
+  } else {
+    const elapsed = (performance.now() - startTime) / 1000;
+    const fps = ++frameCount / elapsed;
+    setStatus("render", `${fps.toFixed(0)} fps`);
+  }
   pendingFrame = null;
 }
 
@@ -61,14 +70,7 @@ function start({dataUri, rendererName, canvas}) {
   // Set up a VideoDecoer.
   const decoder = new VideoDecoder({
     output(frame) {
-      // Update statistics.
-      if (startTime == null) {
-        startTime = performance.now();
-      } else {
-        const elapsed = (performance.now() - startTime) / 1000;
-        const fps = ++frameCount / elapsed;
-        setStatus("render", `${fps.toFixed(0)} fps`);
-      }
+      
 
       // Schedule the frame to be rendered.
       renderFrame(frame);
