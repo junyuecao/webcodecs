@@ -76,13 +76,16 @@ class WebGLRenderer {
   }
 
   draw(frame) {
+    console.time("draw");
     this.#canvas.width = frame.displayWidth;
     this.#canvas.height = frame.displayHeight;
 
     const gl = this.#ctx;
   
     // Upload the frame.
+    console.time("texImage2D");
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, frame);
+    console.timeEnd("texImage2D");
     frame.close();
 
     // Configure and clear the drawing area.
@@ -92,5 +95,6 @@ class WebGLRenderer {
 
     // Draw the frame.
     gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+    console.timeEnd("draw");
   }
 };
