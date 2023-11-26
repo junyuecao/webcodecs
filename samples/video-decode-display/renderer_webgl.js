@@ -77,6 +77,7 @@ class WebGLRenderer {
 
   draw(frame) {
     console.time("draw");
+    console.log("draw start");
     this.#canvas.width = frame.displayWidth;
     this.#canvas.height = frame.displayHeight;
 
@@ -84,6 +85,7 @@ class WebGLRenderer {
   
     // Upload the frame.
     console.time("texImage2D");
+    console.log("texImage2D start");
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, frame);
     console.timeEnd("texImage2D");
     frame.close();
